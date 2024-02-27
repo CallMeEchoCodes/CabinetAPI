@@ -1,0 +1,23 @@
+{
+    "schemaVersion": 1,
+    "id": "testmod-cabinetapi",
+    "version": "0.0.0",
+    "name": "Cabinet API Test Mod",
+    "description": "Cabinet API Test Mod",
+    "authors": [
+        "CallMeEcho"
+    ],
+    "contact": {},
+    "license": "MPL-2.0",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "dev.callmeecho.testmod.TestMod"
+        ]
+    },
+    "depends": {
+        "fabricloader": "*",
+        "fabric": "*",
+        "minecraft": "*"
+    }
+}

@@ -1,0 +1,67 @@
+plugins {
+    id "fabric-loom" version "1.5-SNAPSHOT"
+}
+
+archivesBaseName = project.name
+version = project.modVersion
+group = project.mavenGroup
+
+sourceSets {
+    testmod {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraftVersion}"
+    mappings "net.fabricmc:yarn:${project.yarnMappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loaderVersion}"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabricApiVersion}"
+
+    testmodImplementation sourceSets.main.output
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    
+    withSourcesJar()
+    withJavadocJar()
+}
+
+loom {
+    runs {
+        testmodClient {
+            client()
+            name = "TestMod Client"
+            source sourceSets.testmod
+        }
+        
+        testmodServer {
+            server()
+            name = "TestMod Server"
+            source sourceSets.testmod
+        }
+    }
+    accessWidenerPath = file("src/main/resources/cabinetapi.accesswidener")
+}
+
+jar {
+    from "LICENSE"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}
+
+javadoc {
+    options {
+        source = "17"
+        encoding = "UTF-8"
+        charSet = "UTF-8"
+        memberLevel = JavadocMemberLevel.PACKAGE
+    }
+    classpath = sourceSets.main.compileClasspath
+}
