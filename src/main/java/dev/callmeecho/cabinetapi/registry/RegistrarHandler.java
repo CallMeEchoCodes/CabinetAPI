@@ -33,9 +33,9 @@ public class RegistrarHandler {
      * @param <T> Type of field to loop through
      */
     @SuppressWarnings("unchecked")
-    public static <T> void forEach(Class<? extends Registrar<T>> clazz, RegistrarAction<T> action) {
+    public static <T> void forEach(Class<? extends Registrar<? extends T>> clazz, RegistrarAction<T> action) {
         try {
-            Registrar<T> registrar = clazz.getConstructor().newInstance();
+            Registrar<? extends T> registrar = clazz.getConstructor().newInstance();
             for (var field : registrar.getClass().getDeclaredFields()) {
                 T value;
                 try {
