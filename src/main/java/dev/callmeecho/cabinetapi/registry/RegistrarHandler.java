@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class RegistrarHandler {
-    @ApiStatus.Internal
     public static List<Registrar<?>> registrars = List.of();
     
     /**
