@@ -1,8 +1,11 @@
 package dev.callmeecho.cabinetapi.item;
 
 import dev.callmeecho.cabinetapi.CabinetAPI;
+import dev.callmeecho.cabinetapi.block.CabinetBlockSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -12,6 +15,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CabinetItemGroup {
     private final List<Item> items = new ArrayList<>();
@@ -19,13 +23,17 @@ public class CabinetItemGroup {
     private final Identifier id;
     private final ItemGroup group;
 
-    public CabinetItemGroup(Identifier id, Item icon) {
+    public CabinetItemGroup(Identifier id, Supplier<ItemStack> icon) {
         this.id = id;
         this.group = FabricItemGroup.builder()
-                .icon(() -> new ItemStack(icon))
+                .icon(icon)
                 .displayName(Text.translatable("itemGroup.%s.%s".formatted(id.getNamespace(), id.getPath())))
                 .entries((displayContext, entries)-> addEntries(entries))
                 .build();
+    }
+    
+    public CabinetItemGroup(Identifier id, ItemConvertible icon) {
+        this(id, () -> new ItemStack(icon.asItem()));
     }
     
     public void initialize() {
