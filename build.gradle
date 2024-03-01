@@ -1,5 +1,6 @@
 plugins {
     id "fabric-loom" version "1.5-SNAPSHOT"
+    id "maven-publish"
 }
 
 archivesBaseName = project.name
@@ -64,4 +65,20 @@ javadoc {
         memberLevel = JavadocMemberLevel.PACKAGE
     }
     classpath = sourceSets.main.compileClasspath
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
 }

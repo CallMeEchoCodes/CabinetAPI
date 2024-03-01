@@ -2,7 +2,7 @@ package dev.callmeecho.cabinetapi.mixin;
 
 import com.mojang.authlib.minecraft.UserApiService;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-import dev.callmeecho.cabinetapi.RunArgsNetworkInterface;
+import dev.callmeecho.cabinetapi.misc.RunArgsNetworkExtensions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.util.Session;
@@ -26,6 +26,6 @@ public class MinecraftClientMixin {
         }
         System.out.printf("CabinetAPI: Using development account %s (%s)%n", username, uuid);
         Session session = new Session(username, uuid, runArgs.network.session.getAccessToken(), runArgs.network.session.getXuid(), runArgs.network.session.getClientId(), runArgs.network.session.getAccountType());
-        ((RunArgsNetworkInterface) runArgs.network).cabinetAPI$setSession(session);
+        ((RunArgsNetworkExtensions) runArgs.network).cabinetAPI$setSession(session);
     }
 }

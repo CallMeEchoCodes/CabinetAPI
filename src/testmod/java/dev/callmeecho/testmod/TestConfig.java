@@ -8,7 +8,7 @@ public class TestConfig implements Config {
         return "testconfig";
     }
     
-    public String testString = "test";
+    public final String testString = "test";
     public int testInt = 1;
     public boolean testBool = true;
     public double testDouble = 1.0;

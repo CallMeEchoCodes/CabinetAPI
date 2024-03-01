@@ -1,12 +1,12 @@
 package dev.callmeecho.cabinetapi.mixin;
 
-import dev.callmeecho.cabinetapi.RunArgsNetworkInterface;
+import dev.callmeecho.cabinetapi.misc.RunArgsNetworkExtensions;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.util.Session;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(RunArgs.Network.class)
-public class RunArgsNetworkAccessor implements RunArgsNetworkInterface {
+public class RunArgsNetworkAccessor implements RunArgsNetworkExtensions {
     @Mutable
     @Shadow @Final public Session session;
     

@@ -1,5 +1,6 @@
 package dev.callmeecho.cabinetapi.block;
 
+import dev.callmeecho.cabinetapi.item.CabinetItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
 import net.minecraft.block.AbstractBlock;
@@ -20,6 +21,9 @@ import java.util.function.ToIntFunction;
 public class CabinetBlockSettings extends FabricBlockSettings {
     @Nullable
     private Block strippedBlock;
+    
+    @Nullable
+    private CabinetItemGroup group;
     
     private ToolType toolType = ToolType.NONE;
 
@@ -45,6 +49,15 @@ public class CabinetBlockSettings extends FabricBlockSettings {
         this.strippedBlock = strippedBlock;
         return this;
     }
+    
+    @Nullable
+    public CabinetItemGroup getGroup() { return group; }
+    
+    public CabinetBlockSettings group(CabinetItemGroup group) {
+        this.group = group;
+        return this;
+    }
+    
 
     @Override
     public CabinetBlockSettings noCollision() {

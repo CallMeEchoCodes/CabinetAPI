@@ -2,7 +2,6 @@ package dev.callmeecho.cabinetapi.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dev.callmeecho.cabinetapi.registry.Registrar;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;

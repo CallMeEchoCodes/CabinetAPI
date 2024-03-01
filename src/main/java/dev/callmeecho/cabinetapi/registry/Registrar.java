@@ -21,8 +21,8 @@ public interface Registrar<T> {
      * @param object Object to register
      * @param field Field the object is stored in
      */
-    default void register(String name, String namespace, T object, Field field) { Registry.register(getRegistry(), new Identifier(namespace, name), object); };
-    
+    default void register(String name, String namespace, T object, Field field) { Registry.register(getRegistry(), new Identifier(namespace, name), object); }
+
     /**
      * Initialize the registrar and register all objects.
      * Do not call this method directly, use RegistrarHandler.process() instead.

@@ -5,6 +5,7 @@
   "package": "dev.callmeecho.cabinetapi.mixin",
   "mixins": [
     "AxeItemMixin",
+    "ItemMixin",
     "StrippableBlockRegistryMixin"
   ],
   "client": [

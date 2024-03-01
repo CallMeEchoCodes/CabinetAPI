@@ -24,8 +24,6 @@ public interface Config {
         } catch (IOException e) {
             LOGGER.error("Failed to save config file: " + path, e);
         }
-        
-        LOGGER.info("Saved config file: " + path);
     }
     
     default Path getPath() {

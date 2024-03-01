@@ -1,12 +1,11 @@
 package dev.callmeecho.cabinetapi.registry;
 
-import org.jetbrains.annotations.ApiStatus;
-
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RegistrarHandler {
-    public static List<Registrar<?>> registrars = List.of();
+    public static final List<Registrar<?>> registrars = new ArrayList<>();
     
     /**
      * Initialize a registrar class and register all objects.
@@ -39,11 +38,16 @@ public class RegistrarHandler {
                 T value;
                 try {
                     value = (T)field.get(null);
-                } catch (IllegalAccessException e) {
+                } catch (IllegalAccessException  e) {
                     throw new RuntimeException("Failed to access field " + field.getName(), e);
                 }
-
-                if (value != null && field.getType().isAssignableFrom(value.getClass())) { action.run(value); }
+                
+                try {
+                    if (value != null && field.getType().isAssignableFrom(value.getClass())) {
+                        action.run(value);
+                    }
+                } catch (ClassCastException ignored) {
+                }
             }
         } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Failed to instantiate registrar!", e);

@@ -1,6 +1,9 @@
 package dev.callmeecho.cabinetapi.registry;
 
 import dev.callmeecho.cabinetapi.block.CabinetBlockSettings;
+import dev.callmeecho.cabinetapi.item.CabinetItemGroup;
+import dev.callmeecho.cabinetapi.item.CabinetItemSettings;
+import dev.callmeecho.cabinetapi.misc.ItemExtensions;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -33,7 +36,12 @@ public interface BlockRegistrar extends Registrar<Block> {
     }
     
     default void registerBlockItem(Block block, String namespace, String name) {
-        Registry.register(Registries.ITEM, new Identifier(namespace, name), new BlockItem(block, new Item.Settings()));
+        BlockItem item = new BlockItem(block, new Item.Settings());
+        Registry.register(Registries.ITEM, new Identifier(namespace, name), item);
+        if (block.settings instanceof CabinetBlockSettings settings) {
+            CabinetItemGroup group = settings.getGroup();
+            if (group != null) { group.addItem(item); }
+        }
     }
 
     @Retention(RetentionPolicy.RUNTIME)
