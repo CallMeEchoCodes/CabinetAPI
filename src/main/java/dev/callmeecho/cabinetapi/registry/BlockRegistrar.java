@@ -4,6 +4,7 @@ import dev.callmeecho.cabinetapi.block.CabinetBlockSettings;
 import dev.callmeecho.cabinetapi.item.CabinetItemGroup;
 import dev.callmeecho.cabinetapi.item.CabinetItemSettings;
 import dev.callmeecho.cabinetapi.misc.ItemExtensions;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -28,6 +29,7 @@ public interface BlockRegistrar extends Registrar<Block> {
     default void register(String name, String namespace, Block object, Field field) {
         if (object.settings instanceof CabinetBlockSettings settings) {
             if (settings.getStrippedBlock() != null) { StrippableBlockRegistry.register(object, settings.getStrippedBlock()); }
+            if (settings.isFlammable()) { FlammableBlockRegistry.getDefaultInstance().add(object, settings.getBurn(), settings.getSpread()); }
         }
         Registry.register(getRegistry(), new Identifier(namespace, name), object);
         

@@ -22,16 +22,19 @@ public class CabinetBlockSettings extends FabricBlockSettings {
     @Nullable
     private Block strippedBlock;
     
+    private boolean flammable;
+    
+    private int burn = 5;
+    private int spread = 5;
+    
     @Nullable
     private CabinetItemGroup group;
     
-    private ToolType toolType = ToolType.NONE;
 
     public CabinetBlockSettings(AbstractBlock.Settings settings) {
         super(settings);
         if (settings instanceof CabinetBlockSettings cabinetBlockSettings) {
             strippedBlock = cabinetBlockSettings.strippedBlock;
-            toolType = cabinetBlockSettings.toolType;
         }
     }
 
@@ -49,6 +52,19 @@ public class CabinetBlockSettings extends FabricBlockSettings {
         this.strippedBlock = strippedBlock;
         return this;
     }
+    
+    public void flammable() { flammable = true; }
+    
+    public boolean isFlammable() { return flammable; }
+    
+    public int getBurn() { return burn; }
+    
+    public int getSpread() { return spread; }
+    
+    public void spread(int spread) { this.spread = spread; }
+    
+    public void burn(int burn) { this.burn = burn; }
+    
     
     @Nullable
     public CabinetItemGroup getGroup() { return group; }
