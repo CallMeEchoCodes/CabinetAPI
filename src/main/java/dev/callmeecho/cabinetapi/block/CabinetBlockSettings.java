@@ -53,7 +53,10 @@ public class CabinetBlockSettings extends FabricBlockSettings {
         return this;
     }
     
-    public void flammable() { flammable = true; }
+    public CabinetBlockSettings flammable() { 
+        flammable = true;
+        return this;
+    }
     
     public boolean isFlammable() { return flammable; }
     
@@ -61,9 +64,15 @@ public class CabinetBlockSettings extends FabricBlockSettings {
     
     public int getSpread() { return spread; }
     
-    public void spread(int spread) { this.spread = spread; }
+    public CabinetBlockSettings spread(int spread) { 
+        this.spread = spread;
+        return this;
+    }
     
-    public void burn(int burn) { this.burn = burn; }
+    public CabinetBlockSettings burn(int burn) {
+        this.burn = burn;
+        return this;
+    }
     
     
     @Nullable
