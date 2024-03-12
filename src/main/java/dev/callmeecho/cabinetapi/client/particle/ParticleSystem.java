@@ -36,7 +36,7 @@ public class ParticleSystem {
     public void tick(World world, BlockPos pos) {
         age++;
         
-        if (age % spawnRate == 0) {
+        if (age == spawnRate) {
             for (int i = 0; i < particleCount; i++) {
                 float xRand = (2.0F * random.nextFloat() - 1F);
                 float yRand = (2.0F * random.nextFloat() - 1F);
@@ -50,6 +50,7 @@ public class ParticleSystem {
                     world.addParticle(type, x, y, z, velocity.x, velocity.y, velocity.z);
                 }
             }
+            age = 0;
         }
     }
 }
