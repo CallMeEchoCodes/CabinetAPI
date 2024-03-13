@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "id": "cabinetapi",
-    "version": "0.0.1",
+    "version": "${version}",
     "name": "Cabinet API",
     "description": "A library mod with a bunch of useful utilities for modders.",
     "authors": [

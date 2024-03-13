@@ -16,6 +16,6 @@ public class TestBlock extends Block {
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         Vec3d center = pos.toCenterPos();
-        world.addParticle(CabinetParticleTypes.DEBUG, center.getX(), center.getY() + 1, center.getZ(), 0, 0, 0);
+//        world.addParticle(CabinetParticleTypes.DEBUG, center.getX(), center.getY() + 1, center.getZ(), 0, 0, 0);
     }
 }
