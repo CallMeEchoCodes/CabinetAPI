@@ -12,6 +12,9 @@
     "entrypoints": {
         "main": [
             "dev.callmeecho.cabinetapi.CabinetAPI"
+        ],
+        "client": [
+            "dev.callmeecho.cabinetapi.client.CabinetAPIClient"
         ]
     },
     "mixins": [
