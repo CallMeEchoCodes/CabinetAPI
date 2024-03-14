@@ -10,11 +10,32 @@ base {
     archivesName = project.archives_base_name
 }
 
+repositories {
+    
+}
+
 sourceSets {
     testmod {
         compileClasspath += main.compileClasspath
         runtimeClasspath += main.runtimeClasspath
     }
+}
+
+loom {
+    runs {
+        testmodClient {
+            client()
+            name = "TestMod Client"
+            source sourceSets.testmod
+        }
+
+        testmodServer {
+            server()
+            name = "TestMod Server"
+            source sourceSets.testmod
+        }
+    }
+    accessWidenerPath = file("src/main/resources/cabinetapi.accesswidener")
 }
 
 dependencies {
@@ -35,29 +56,44 @@ java {
     withJavadocJar()
 }
 
-loom {
-    runs {
-        testmodClient {
-            client()
-            name = "TestMod Client"
-            source sourceSets.testmod
-        }
-        
-        testmodServer {
-            server()
-            name = "TestMod Server"
-            source sourceSets.testmod
-        }
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
     }
-    accessWidenerPath = file("src/main/resources/cabinetapi.accesswidener")
+}
+
+def targetJavaVersion = 17
+tasks.withType(JavaCompile).configureEach {
+    // ensure that the encoding is set to UTF-8, no matter what the system default is
+    // this fixes some edge cases with special characters not displaying correctly
+    // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
+    // If Javadoc is generated, this must be specified in that task too.
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release.set(targetJavaVersion)
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+
+    withSourcesJar()
 }
 
 jar {
-    from "LICENSE"
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = "UTF-8"
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
 }
 
 javadoc {
@@ -70,21 +106,8 @@ javadoc {
     classpath = sourceSets.main.compileClasspath
 }
 
-task sourceJar(type: Jar) {
+tasks.register('sourceJar', Jar) {
     from sourceSets.main.allJava
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version
-    }
 }
 
 publishing {

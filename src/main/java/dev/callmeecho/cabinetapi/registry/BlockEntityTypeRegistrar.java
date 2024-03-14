@@ -4,9 +4,9 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
-public class BlockEntityTypeRegistrar implements Registrar<BlockEntityType<?>> {
+public interface BlockEntityTypeRegistrar extends Registrar<BlockEntityType<?>> {
     @Override
-    public Registry<BlockEntityType<?>> getRegistry() {
+    default Registry<BlockEntityType<?>> getRegistry() {
         return Registries.BLOCK_ENTITY_TYPE;
     }
 }

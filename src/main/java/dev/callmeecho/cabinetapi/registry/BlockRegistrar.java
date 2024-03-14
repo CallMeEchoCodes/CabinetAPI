@@ -27,10 +27,6 @@ public interface BlockRegistrar extends Registrar<Block> {
     
     @Override
     default void register(String name, String namespace, Block object, Field field) {
-        if (object.settings instanceof CabinetBlockSettings settings) {
-            if (settings.getStrippedBlock() != null) { StrippableBlockRegistry.register(object, settings.getStrippedBlock()); }
-            if (settings.isFlammable()) { FlammableBlockRegistry.getDefaultInstance().add(object, settings.getBurn(), settings.getSpread()); }
-        }
         Registry.register(getRegistry(), new Identifier(namespace, name), object);
         
         if (field.isAnnotationPresent(NoBlockItem.class)) return;
@@ -39,11 +35,7 @@ public interface BlockRegistrar extends Registrar<Block> {
     
     default void registerBlockItem(Block block, String namespace, String name) {
         BlockItem item = new BlockItem(block, new Item.Settings());
-        Registry.register(Registries.ITEM, new Identifier(namespace, name), item);
-        if (block.settings instanceof CabinetBlockSettings settings) {
-            CabinetItemGroup group = settings.getGroup();
-            if (group != null) { group.addItem(item); }
-        }
+        Registry.register(Registries.ITEM, new Identifier(namespace, name), item); 
     }
 
     @Retention(RetentionPolicy.RUNTIME)

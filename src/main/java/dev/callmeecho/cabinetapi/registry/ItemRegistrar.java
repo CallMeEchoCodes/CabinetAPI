@@ -15,13 +15,4 @@ public interface ItemRegistrar extends Registrar<Item> {
     default Registry<Item> getRegistry() {
         return Registries.ITEM;
     }
-
-    @Override
-    default void register(String name, String namespace, Item object, Field field) {
-        Registry.register(getRegistry(), new Identifier(namespace, name), object);
-        if (((ItemExtensions) object).cabinetAPI$getSettings() instanceof CabinetItemSettings settings) {
-            CabinetItemGroup group = settings.getGroup();
-            if (group != null) { group.addItem(object); }
-        }
-    }
 }

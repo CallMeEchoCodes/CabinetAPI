@@ -1,9 +1,6 @@
 package dev.callmeecho.cabinetapi.item;
 
-import dev.callmeecho.cabinetapi.CabinetAPI;
-import dev.callmeecho.cabinetapi.block.CabinetBlockSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
