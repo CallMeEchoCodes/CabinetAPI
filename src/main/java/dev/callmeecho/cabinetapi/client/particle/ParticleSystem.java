@@ -8,6 +8,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
+
+/**
+ * A particle system that can be used to create a particle effect at a specific location.
+ * Make sure to call {@link ParticleSystem#tick(World, BlockPos)} every tick to spawn the particles.
+ */
 @Environment(EnvType.CLIENT)
 public class ParticleSystem {
     public Vec3d velocity;
@@ -22,6 +27,17 @@ public class ParticleSystem {
     private final ParticleEffect type;
     private final Random random;
     
+    /**
+     * Creates a new particle system.
+     *
+     * @param velocity The velocity of the particles.
+     * @param offset The offset from the block position.
+     * @param positionVariance The variance in the position of the particles.
+     * @param particleCount The number of particles to spawn.
+     * @param spawnRate The number of ticks between each spawn.
+     * @param randomizeVelocity Whether to randomize the velocity of the particles.
+     * @param type The particle type.
+     */
     public ParticleSystem(Vec3d velocity, Vec3d offset, Vec3d positionVariance, int particleCount, int spawnRate, boolean randomizeVelocity, ParticleEffect type) {
         this.velocity = velocity;
         this.offset = offset;
@@ -33,6 +49,12 @@ public class ParticleSystem {
         this.random = Random.create();
     }
     
+    /**
+     * Spawn the particles.
+     *
+     * @param world The world.
+     * @param pos The position of the block.
+     */
     public void tick(World world, BlockPos pos) {
         age++;
         

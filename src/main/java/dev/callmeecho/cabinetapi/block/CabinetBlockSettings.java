@@ -17,6 +17,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
+/**
+ * Extension of {@link FabricBlockSettings} that adds additional settings for blocks.
+ */
 public class CabinetBlockSettings extends FabricBlockSettings {
     @Nullable
     private Block strippedBlock;

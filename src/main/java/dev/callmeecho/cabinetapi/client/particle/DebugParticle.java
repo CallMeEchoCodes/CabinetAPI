@@ -6,6 +6,11 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 
+/**
+ * A simple particle for debugging purposes.
+ * Generally intended for checking the location of a vector.
+ * Best used with a particle system.
+ */
 @Environment(EnvType.CLIENT)
 public class DebugParticle extends SpriteBillboardParticle {
 

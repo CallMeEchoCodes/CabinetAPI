@@ -7,6 +7,11 @@ import org.jetbrains.annotations.ApiStatus;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+/**
+ * Automatically register objects to a registry using reflection.
+ * Objects are defined as static fields in the implementing class.
+ * @param <T> Type of object to register
+ */
 public interface Registrar<T> {
     /**
      * Get the registry to register objects in.
