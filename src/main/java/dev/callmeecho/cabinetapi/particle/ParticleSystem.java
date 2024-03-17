@@ -1,4 +1,4 @@
-package dev.callmeecho.cabinetapi.client.particle;
+package dev.callmeecho.cabinetapi.particle;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,7 +13,6 @@ import net.minecraft.world.World;
  * A particle system that can be used to create a particle effect at a specific location.
  * Make sure to call {@link ParticleSystem#tick(World, BlockPos)} every tick to spawn the particles.
  */
-@Environment(EnvType.CLIENT)
 public class ParticleSystem {
     public Vec3d velocity;
     public Vec3d offset;
