@@ -1,9 +1,10 @@
 plugins {
+    id "java"
     id "fabric-loom" version "1.5-SNAPSHOT"
     id "maven-publish"
 }
 
-version = project.mod_version
+version = project.mod_version + "+" + project.minecraft_version
 group = project.maven_group
 
 base {
@@ -58,23 +59,20 @@ java {
 
 processResources {
     inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
+    inputs.property "minecraft_version", project.properties.minecraft_version
+    inputs.property "loader_version", project.properties.loader_version
     filteringCharset "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version
+                "minecraft_version": project.properties.minecraft_version,
+                "loader_version": project.properties.loader_version
     }
 }
 
 def targetJavaVersion = 17
+
 tasks.withType(JavaCompile).configureEach {
-    // ensure that the encoding is set to UTF-8, no matter what the system default is
-    // this fixes some edge cases with special characters not displaying correctly
-    // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-    // If Javadoc is generated, this must be specified in that task too.
     it.options.encoding = "UTF-8"
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         it.options.release.set(targetJavaVersion)
@@ -92,7 +90,7 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${project.properties.archives_base_name}" }
     }
 }
 
@@ -102,6 +100,7 @@ javadoc {
         encoding = "UTF-8"
         charSet = "UTF-8"
         memberLevel = JavadocMemberLevel.PACKAGE
+        (options as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")
     }
     classpath = sourceSets.main.compileClasspath
 }

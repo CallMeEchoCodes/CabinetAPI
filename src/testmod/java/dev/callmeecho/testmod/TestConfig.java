@@ -1,6 +1,7 @@
 package dev.callmeecho.testmod;
 
 import dev.callmeecho.cabinetapi.config.Config;
+import dev.callmeecho.cabinetapi.config.annotations.Comment;
 
 public class TestConfig implements Config {
     @Override
@@ -8,6 +9,7 @@ public class TestConfig implements Config {
         return "testconfig";
     }
     
+    @Comment("This is a test string")
     public final String testString = "test";
     public int testInt = 1;
     public boolean testBool = true;
