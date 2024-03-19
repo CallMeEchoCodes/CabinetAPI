@@ -1,8 +1,7 @@
 package dev.callmeecho.cabinetapi.registry;
 
-import dev.callmeecho.cabinetapi.misc.ReflectionHelper;
+import dev.callmeecho.cabinetapi.util.ReflectionHelper;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 

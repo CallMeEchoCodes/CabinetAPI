@@ -1,6 +1,6 @@
 package dev.callmeecho.cabinetapi.mixin;
 
-import dev.callmeecho.cabinetapi.misc.ItemExtensions;
+import dev.callmeecho.cabinetapi.util.ItemExtensions;
 import net.minecraft.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

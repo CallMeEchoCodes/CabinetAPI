@@ -3,7 +3,7 @@ package dev.callmeecho.cabinetapi.mixin;
 import dev.callmeecho.cabinetapi.block.CabinetBlockSettings;
 import dev.callmeecho.cabinetapi.item.CabinetItemGroup;
 import dev.callmeecho.cabinetapi.item.CabinetItemSettings;
-import dev.callmeecho.cabinetapi.misc.ItemExtensions;
+import dev.callmeecho.cabinetapi.util.ItemExtensions;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.Block;

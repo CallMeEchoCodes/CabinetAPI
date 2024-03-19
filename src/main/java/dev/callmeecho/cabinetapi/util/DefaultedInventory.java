@@ -1,4 +1,4 @@
-package dev.callmeecho.cabinetapi.misc;
+package dev.callmeecho.cabinetapi.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -18,13 +18,13 @@ public interface DefaultedInventory extends Inventory {
     DefaultedList<ItemStack> getItems();
 
     @Override
-    default int size() { return getItems().size(); };
+    default int size() { return getItems().size(); }
 
     @Override
-    default boolean isEmpty() { return getItems().isEmpty(); };
+    default boolean isEmpty() { return getItems().isEmpty(); }
 
     @Override
-    default ItemStack getStack(int slot) { return getItems().get(slot); };
+    default ItemStack getStack(int slot) { return getItems().get(slot); }
 
     @Override
     default ItemStack removeStack(int slot, int amount) {

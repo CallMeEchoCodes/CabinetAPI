@@ -7,6 +7,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Yes, this does kinda break my rule of not changing functionality in Cabinet,
+ * but the narrator produces a massive error message on Linux that can make logs way harder to read.
+ */
 @Mixin(Narrator.class)
 public interface NarratorMixin {
     @Inject(method = "getNarrator", at = @At("HEAD"), cancellable = true, remap = false)

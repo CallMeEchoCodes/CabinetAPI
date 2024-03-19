@@ -1,10 +1,13 @@
-package dev.callmeecho.cabinetapi.misc;
+package dev.callmeecho.cabinetapi.util;
 
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 
+/**
+ * A helper class for VoxelShapes
+ */
 public class VoxelShapeHelper {
 
     /**

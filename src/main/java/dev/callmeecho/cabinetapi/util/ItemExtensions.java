@@ -1,4 +1,4 @@
-package dev.callmeecho.cabinetapi.misc;
+package dev.callmeecho.cabinetapi.util;
 
 import net.minecraft.item.Item;
 

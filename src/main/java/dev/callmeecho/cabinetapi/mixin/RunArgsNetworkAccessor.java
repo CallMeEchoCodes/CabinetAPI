@@ -1,6 +1,6 @@
 package dev.callmeecho.cabinetapi.mixin;
 
-import dev.callmeecho.cabinetapi.misc.RunArgsNetworkExtensions;
+import dev.callmeecho.cabinetapi.util.RunArgsNetworkExtensions;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.util.Session;
 import org.spongepowered.asm.mixin.*;

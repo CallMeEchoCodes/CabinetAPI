@@ -1,11 +1,5 @@
 package dev.callmeecho.cabinetapi.registry;
 
-import dev.callmeecho.cabinetapi.block.CabinetBlockSettings;
-import dev.callmeecho.cabinetapi.item.CabinetItemGroup;
-import dev.callmeecho.cabinetapi.item.CabinetItemSettings;
-import dev.callmeecho.cabinetapi.misc.ItemExtensions;
-import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;

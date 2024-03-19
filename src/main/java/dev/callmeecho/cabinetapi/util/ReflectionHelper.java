@@ -1,9 +1,12 @@
-package dev.callmeecho.cabinetapi.misc;
+package dev.callmeecho.cabinetapi.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
+/**
+ * A bunch of utilities to reduce boilerplate reflection code.
+ */
 public final class ReflectionHelper {
     private ReflectionHelper() {
     }
