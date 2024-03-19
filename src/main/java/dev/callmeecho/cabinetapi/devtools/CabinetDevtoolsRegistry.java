@@ -6,5 +6,5 @@ import dev.callmeecho.cabinetapi.registry.ItemRegistrar;
 import net.minecraft.item.Item;
 
 public class CabinetDevtoolsRegistry implements ItemRegistrar {
-    public static final Item LOOT_LOADER = new LootLoader(new CabinetItemSettings());
+    public static final Item LOOT_LOADER = new LootLoader(new CabinetItemSettings().maxCount(1));
 }

@@ -1,5 +1,6 @@
 {
   "item.cabinetapi.loot_loader.success": "Loot Table \"%s\" loaded successfully",
   "item.cabinetapi.loot_loader.invalid": "Loot Table \"%s\" is invalid or does not exist",
-  "item.cabinetapi.loot_loader.no_name": "To use the loot loader, rename it to the loot table you want to load"
+  "item.cabinetapi.loot_loader.no_name": "To use the loot loader, rename it to the loot table you want to load",
+  "item.cabinetapi.loot_loader": "Loot Loader"
 }
