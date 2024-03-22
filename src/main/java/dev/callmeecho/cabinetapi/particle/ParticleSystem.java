@@ -1,6 +1,7 @@
 package dev.callmeecho.cabinetapi.particle;
 
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
@@ -63,12 +64,37 @@ public class ParticleSystem {
                 double x = (pos.getX() + offset.getX()) + (xRand * positionVariance.getX());
                 double y = (pos.getY() + offset.getY()) + (yRand * positionVariance.getY());
                 double z = (pos.getZ() + offset.getZ()) + (zRand * positionVariance.getZ());
-                if (randomizeVelocity) {
-                    world.addParticle(type, x, y, z, xRand * velocity.x, yRand * velocity.y, zRand * velocity.z);
+
+                double finalX = randomizeVelocity ? xRand * velocity.x : velocity.x;
+                double finalY = randomizeVelocity ? yRand * velocity.y : velocity.y;
+                double finalZ = randomizeVelocity ? zRand * velocity.z : velocity.z;
+                if (world.isClient) {
+                    world.addParticle(
+                            type,
+                            x,
+                            y,
+                            z,
+                            finalX,
+                            finalY,
+                            finalZ
+                    );
                 } else {
-                    world.addParticle(type, x, y, z, velocity.x, velocity.y, velocity.z);
+                    if (!(world instanceof ServerWorld serverWorld)) return;
+
+                    serverWorld.spawnParticles(
+                            type,
+                            x,
+                            y,
+                            z,
+                            0,
+                            finalX,
+                            finalY,
+                            finalZ,
+                            1
+                    );
                 }
             }
+
             age = 0;
         }
     }
