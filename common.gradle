@@ -109,7 +109,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = project.maven_group
             artifactId = project.archives_base_name
-            version = project.mod_version
+            version = version
             from components.java
         }
     }
