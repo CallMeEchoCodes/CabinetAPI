@@ -2,136 +2,58 @@ plugins {
     id "java"
     id "fabric-loom" version "1.5-SNAPSHOT"
     id "maven-publish"
+
+    id "com.replaymod.preprocess" version "ce1aeb2"
 }
 
-version = "${project.mod_version}+${project.minecraft_version}"
-group = project.maven_group
+preprocess {
+    def minecraft_1_20_1 = createNode("1.20.1", 1_20_01, "")
+    def minecraft_1_20_2 = createNode("1.20.2", 1_20_02, "")
+    def minecraft_1_20_3 = createNode("1.20.3", 1_20_03, "")
+    def minecraft_1_20_4 = createNode("1.20.4", 1_20_04, "")
 
-base {
-    archivesName = project.archives_base_name
+    minecraft_1_20_1.link(minecraft_1_20_2, null)
+    minecraft_1_20_2.link(minecraft_1_20_3, null)
+    minecraft_1_20_3.link(minecraft_1_20_4, null)
 }
 
-sourceSets {
-    testmod {
-        compileClasspath += main.compileClasspath
-        runtimeClasspath += main.runtimeClasspath
+
+tasks.register("buildAndGather") {
+    subprojects {
+        dependsOn project.tasks.named("build").get()
     }
-}
 
-loom {
-    runs {
-        testmodClient {
-            client()
-            name = "TestMod Client"
-            source sourceSets.testmod
+    doFirst {
+        println("Gathering builds...")
+
+        def buildLibs = {
+            file -> file.buildDir.toPath().resolve("libs")
         }
 
-        testmodServer {
-            server()
-            name = "TestMod Server"
-            source sourceSets.testmod
+        delete fileTree(buildLibs(rootProject)) {
+            include "*"
+        }
+
+        subprojects {
+            copy {
+                from(buildLibs(project)) {
+                    include "*.jar"
+                    exclude "*-sources.jar"
+                    exclude "*-javadoc.jar"
+                    exclude "*-dev.jar"
+                }
+
+                into buildLibs(rootProject)
+                duplicatesStrategy = DuplicatesStrategy.INCLUDE
+            }
         }
     }
-    accessWidenerPath = file("src/main/resources/cabinetapi.accesswidener")
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    minecraft "com.mojang:minecraft:${project.root_minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.root_yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    testmodImplementation sourceSets.main.output
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-    
-    withSourcesJar()
-    withJavadocJar()
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.properties.minecraft_version
-    inputs.property "loader_version", project.properties.loader_version
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.properties.minecraft_version,
-                "loader_version": project.properties.loader_version
-    }
-}
-
-def targetJavaVersion = 17
-
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        it.options.release.set(targetJavaVersion)
-    }
-}
-
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-
-    withSourcesJar()
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.properties.archives_base_name}" }
-    }
-}
-
-javadoc {
-    options {
-        source = "17"
-        encoding = "UTF-8"
-        charSet = "UTF-8"
-        memberLevel = JavadocMemberLevel.PACKAGE
-        (options as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")
-    }
-    classpath = sourceSets.main.compileClasspath
-}
-
-tasks.register('sourceJar', Jar) {
-    from sourceSets.main.allJava
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId = project.maven_group
-            artifactId = project.archives_base_name
-            version = project.mod_version
-            from components.java
-        }
-    }
-
-    repositories {
-        maven {
-            name = "EchosMavenReleases"
-            url = "https://maven.callmeecho.dev/releases"
-            credentials(PasswordCredentials)
-            authentication {
-                basic(BasicAuthentication)
-            }
-        }
-        
-        maven {
-            name = "EchosMavenSnapshots"
-            url = "https://maven.callmeecho.dev/snapshots"
-            credentials(PasswordCredentials)
-            authentication {
-                basic(BasicAuthentication)
-            }
-        }
-    }
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.root_fabric_version}"
 }

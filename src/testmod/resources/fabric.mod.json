@@ -16,8 +16,10 @@
         ]
     },
     "depends": {
-        "fabricloader": "*",
-        "fabric": "*",
-        "minecraft": "*"
+        "fabricloader": ">=0.14.24",
+        "minecraft": "~${minecraft_version}",
+        "java": ">=17",
+        "fabric-api": "*",
+        "cabinetapi": "*"
     }
 }

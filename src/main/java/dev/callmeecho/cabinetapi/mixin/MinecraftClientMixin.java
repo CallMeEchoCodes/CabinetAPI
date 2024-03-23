@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.UUID;
+
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
     @Shadow @Final private static Logger LOGGER;
@@ -24,7 +26,12 @@ public class MinecraftClientMixin {
         if (!CabinetAPI.DEBUG) return;
 
         String username = System.getProperty("cabinetapi.development.username");
+
+        //#if MC>=12002
+        //$$ UUID uuid = UUID.fromString(System.getProperty("cabinetapi.development.uuid"));
+        //#else
         String uuid = System.getProperty("cabinetapi.development.uuid");
+        //#endif
         
         if (username == null || uuid == null) {
             LOGGER.info("Development account not set, skipping...");

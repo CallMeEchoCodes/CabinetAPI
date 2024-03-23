@@ -24,7 +24,7 @@
     "accessWidener": "cabinetapi.accesswidener",
     "depends": {
         "fabricloader": ">=0.14.24",
-        "minecraft": "~1.20.1",
+        "minecraft": "${minecraft_version}",
         "java": ">=17",
         "fabric-api": "*"
     }
