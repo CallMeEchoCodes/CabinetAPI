@@ -7,6 +7,10 @@ preprocess {
     tabIndentation = true
 }
 
+base.archivesName = project.archives_base_name
+version = "${project.mod_version}+${project.minecraft_version}"
+group = project.maven_group
+
 repositories {
 
 }
@@ -54,16 +58,11 @@ processResources {
     filteringCharset "UTF-8"
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version,
+        expand "version": version,
                 "minecraft_version": project.properties.minecraft_version,
                 "loader_version": project.properties.loader_version
     }
 }
-
-base.archivesName = project.archives_base_name
-version = "${project.mod_version}+${project.minecraft_version}"
-group = project.maven_group
-
 
 def targetJavaVersion = 17
 
