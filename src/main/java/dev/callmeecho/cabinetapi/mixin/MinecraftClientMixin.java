@@ -27,7 +27,11 @@ public class MinecraftClientMixin {
 
         String username = System.getProperty("cabinetapi.development.username");
 
+        //#if MC<12002
         String uuid = System.getProperty("cabinetapi.development.uuid");
+        //#else
+        //$$ UUID uuid = UUID.fromString(System.getProperty("cabinetapi.development.uuid"));
+        //#endif
 
         if (username == null || uuid == null) {
             LOGGER.info("Development account not set, skipping...");
