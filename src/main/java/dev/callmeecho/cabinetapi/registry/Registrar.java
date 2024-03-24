@@ -1,9 +1,14 @@
 package dev.callmeecho.cabinetapi.registry;
 
+import dev.callmeecho.cabinetapi.util.ReflectionHelper;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -38,14 +43,19 @@ public interface Registrar<T> {
     default void init(String namespace) {
         for (var field : this.getClass().getDeclaredFields()) {
             if (!Modifier.isStatic(field.getModifiers())) continue;
+            if (field.isAnnotationPresent(Ignore.class)) continue;
             T value;
             try {
                 value = (T)field.get(null);
             } catch (IllegalAccessException e) {
                 throw new RuntimeException("Failed to access field " + field.getName(), e);
             }
-            
+
             if (value != null && field.getType().isAssignableFrom(value.getClass())) { register(field.getName().toLowerCase(), namespace, value, field); }
         }
     }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.FIELD)
+    public @interface Ignore {}
 }
