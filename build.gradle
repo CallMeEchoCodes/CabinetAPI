@@ -100,14 +100,5 @@ publishing {
                 basic(BasicAuthentication)
             }
         }
-
-        maven {
-            name = "EchosMavenSnapshots"
-            url = "https://maven.callmeecho.dev/snapshots"
-            credentials(PasswordCredentials)
-            authentication {
-                basic(BasicAuthentication)
-            }
-        }
     }
 }
