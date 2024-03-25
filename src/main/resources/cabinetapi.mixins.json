@@ -11,8 +11,7 @@
     "StrippableBlockRegistryMixin"
   ],
   "client": [
-    "MinecraftClientMixin",
-    "RunArgsNetworkAccessor"
+    "RunArgsNetworkMixin"
   ],
   "server": [
   ],
