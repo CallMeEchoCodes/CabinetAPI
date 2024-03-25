@@ -55,6 +55,9 @@ public interface Registrar<T> {
         }
     }
 
+    /**
+     * Ignore a field when registering objects.
+     */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
     public @interface Ignore {}

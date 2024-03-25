@@ -31,7 +31,6 @@ public class CabinetBlockSettings extends FabricBlockSettings {
     
     @Nullable
     private CabinetItemGroup group;
-    
 
     public CabinetBlockSettings(AbstractBlock.Settings settings) {
         super(settings);

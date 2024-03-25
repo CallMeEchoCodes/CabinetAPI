@@ -11,6 +11,13 @@ public final class ReflectionHelper {
     private ReflectionHelper() {
     }
 
+    /**
+     * Instantiate a class with no arguments.
+     *
+     * @param clazz Class to instantiate
+     * @param <T> The type of the class
+     * @return A new instance of the class
+     */
     public static <T> T instantiate(Class<T> clazz) {
         T instance;
         try {
@@ -29,6 +36,14 @@ public final class ReflectionHelper {
         return instance;
     }
 
+    /**
+     * Instantiate a class with arguments.
+     *
+     * @param clazz Class to instantiate
+     * @param args Arguments to pass to the constructor
+     * @param <T> The type of the class
+     * @return A new instance of the class
+     */
     public static <T> T instantiate(Class<T> clazz, Object... args) {
         T instance;
         try {
@@ -75,6 +90,11 @@ public final class ReflectionHelper {
         }
     }
 
+    /**
+     * Functional interface for actions to perform on fields.
+     *
+     * @param <T> Type of the field
+     */
     @FunctionalInterface
     public interface FieldAction<T> {
         void run(T value, String name, Field field);

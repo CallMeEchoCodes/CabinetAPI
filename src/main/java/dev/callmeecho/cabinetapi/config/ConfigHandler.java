@@ -11,9 +11,21 @@ import java.nio.file.Files;
 import java.util.List;
 
 
+/**
+ * Handles the loading of config files.
+ * In the future, this class will also handle aspects of the GUI.
+ */
 public class ConfigHandler {
     protected static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
+    /**
+     * Get a config file. If the file does not exist, it will be created and saved.
+     * Could also be described as a load function.
+     *
+     * @param clazz The class of the config file
+     * @param <T> The type of the config file
+     * @return The config file
+     */
     public static <T extends Config> T getConfig(Class<T> clazz) {
         T config = ReflectionHelper.instantiate(clazz);
 

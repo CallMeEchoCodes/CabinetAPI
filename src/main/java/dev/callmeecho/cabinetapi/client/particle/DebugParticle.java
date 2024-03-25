@@ -13,7 +13,6 @@ import net.minecraft.particle.DefaultParticleType;
  */
 @Environment(EnvType.CLIENT)
 public class DebugParticle extends SpriteBillboardParticle {
-
     protected DebugParticle(ClientWorld world, double x, double y, double z) {
         super(world, x, y, z);
         this.scale = 0.05F;

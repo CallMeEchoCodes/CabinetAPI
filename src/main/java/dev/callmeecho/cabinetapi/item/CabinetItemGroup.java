@@ -9,11 +9,15 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Simple utility for making item groups without having to register each item individually.
+ */
 public class CabinetItemGroup {
     private final List<Item> items = new ArrayList<>();
     
@@ -32,17 +36,22 @@ public class CabinetItemGroup {
     public CabinetItemGroup(Identifier id, ItemConvertible icon) {
         this(id, () -> new ItemStack(icon.asItem()));
     }
-    
+
+    /**
+     * Initialize the item group. This will also freeze the item group, meaning no more items can be added.
+     */
     public void initialize() {
         Registry.register(Registries.ITEM_GROUP, id, group);
     }
-    
+
+    @ApiStatus.Internal
     private void addEntries(ItemGroup.Entries entries) {
         for (Item item : items) {
             entries.add(new ItemStack(item));
         }
     }
-    
+
+    @ApiStatus.Internal
     public void addItem(Item item) {
         items.add(item);
     }
