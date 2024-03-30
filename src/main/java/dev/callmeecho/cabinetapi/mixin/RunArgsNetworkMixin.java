@@ -4,12 +4,12 @@ import com.mojang.authlib.properties.PropertyMap;
 import dev.callmeecho.cabinetapi.CabinetAPI;
 import net.minecraft.client.RunArgs;
 
-/*? if 1.20.1 {*//*
+/*? if 1.20.1 {*/
 import net.minecraft.client.util.Session;
-*//*?} else {*/
+/*?} else {*//*
 import net.minecraft.client.session.Session;
 import java.util.UUID;
-/*?} */
+*//*?} */
 
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,20 +27,24 @@ public class RunArgsNetworkMixin {
     private void init(Session session, PropertyMap userProperties, PropertyMap profileProperties, Proxy proxy, CallbackInfo ci) {
         if (!CabinetAPI.DEBUG) return;
 
+        if (!System.getProperties().containsKey("cabinetapi.development.name")) {
+            CabinetAPI.LOGGER.info("Development account not set, skipping...");
+            return;
+        }
         String username = System.getProperty("cabinetapi.development.username");
-        /*? if 1.20.1 {*//*
+        /*? if 1.20.1 {*/
         String uuid = System.getProperty("cabinetapi.development.uuid");
         if (uuid == null) {
             CabinetAPI.LOGGER.info("Development account not set, skipping...");
             return;
         }
-        *//*?} else {*/
+        /*?} else {*//*
         if (!System.getProperties().containsKey("cabinetapi.development.uuid")) {
             CabinetAPI.LOGGER.info("Development account not set, skipping...");
             return;
         }
         UUID uuid = UUID.fromString(System.getProperty("cabinetapi.development.uuid"));
-        /*?} */
+        *//*?} */
         if (username == null) {
             CabinetAPI.LOGGER.info("Development account not set, skipping...");
             return;

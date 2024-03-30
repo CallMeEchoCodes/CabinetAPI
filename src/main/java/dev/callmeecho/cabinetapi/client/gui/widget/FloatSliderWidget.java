@@ -44,8 +44,8 @@ public class FloatSliderWidget extends SliderWidget implements CabinetWidget {
         setter.set((float) (value * (max - min) + min));
     }
 
-    /*? if 1.20.1 {*//*
+    /*? if 1.20.1 {*/
     @Override
     public void setHeight(int height) { this.height = height; }
-    *//*?} */
+    /*?} */
 }

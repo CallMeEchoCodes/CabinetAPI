@@ -27,7 +27,7 @@ public class TextBoxWidget extends TextFieldWidget implements CabinetWidget {
         setSelectionStart(0);
     }
 
-    /*? if 1.20.1 {*//*
+    /*? if 1.20.1 {*/
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if (Util.getMeasuringTimeMs() - lastTick > 50) {
@@ -36,7 +36,7 @@ public class TextBoxWidget extends TextFieldWidget implements CabinetWidget {
         }
         super.render(context, mouseX, mouseY, delta);
     }
-    *//*?} */
+    /*?} */
 
 
     @Override

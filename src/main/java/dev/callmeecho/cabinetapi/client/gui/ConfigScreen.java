@@ -192,11 +192,11 @@ public class ConfigScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        /*? if 1.20.1 {*//*
+        /*? if 1.20.1 {*/
         this.renderBackground(context);
-        *//*?} else {*/
+        /*?} else {*//*
         this.renderBackground(context, mouseX, mouseY, delta);
-        /*?} */
+        *//*?} */
 
 
         super.render(context, mouseX, mouseY, delta);

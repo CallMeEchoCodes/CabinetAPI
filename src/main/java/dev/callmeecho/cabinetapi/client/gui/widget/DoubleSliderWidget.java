@@ -45,8 +45,8 @@ public class DoubleSliderWidget extends SliderWidget implements CabinetWidget {
         setter.set(value * (max - min) + min);
     }
 
-    /*? if 1.20.1 {*//*
+    /*? if 1.20.1 {*/
     @Override
     public void setHeight(int height) { this.height = height; }
-    *//*?} */
+    /*?} */
 }

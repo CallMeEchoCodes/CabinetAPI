@@ -46,8 +46,8 @@ public class IntSliderWidget extends SliderWidget implements CabinetWidget {
         setter.set((int) Math.round(this.value * (max - min) + min));
     }
 
-    /*? if 1.20.1 {*//*
+    /*? if 1.20.1 {*/
     @Override
     public void setHeight(int height) { this.height = height; }
-    *//*?} */
+    /*?} */
 }
