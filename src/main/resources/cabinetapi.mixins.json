@@ -11,10 +11,12 @@
     "StrippableBlockRegistryMixin"
   ],
   "client": [
+    "ModMenuMixin",
     "RunArgsNetworkMixin"
   ],
   "server": [
   ],
+  "plugin": "dev.callmeecho.cabinetapi.CabinetAPIMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   }

@@ -7,6 +7,11 @@
     "authors": [
         "CallMeEcho"
     ],
+    "contact": {
+        "homepage": "https://github.com/CallMeEchoCodes/CabinetAPI",
+        "sources": "https://github.com/CallMeEchoCodes/CabinetAPI",
+        "issues": "https://github.com/CallMeEchoCodes/CabinetAPI/issues"
+    },
     "license": "MPL-2.0",
     "environment": "*",
     "entrypoints": {
@@ -27,5 +32,13 @@
         "minecraft": "${minecraft_version}",
         "java": ">=17",
         "fabric-api": "*"
+    },
+    "custom": {
+        "modmenu": {
+            "links": {
+                "modmenu.discord": "https://discord.gg/TTmx7d2axf"
+            },
+            "badges": [ "library" ]
+        }
     }
 }

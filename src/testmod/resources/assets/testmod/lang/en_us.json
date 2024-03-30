@@ -1,0 +1,20 @@
+{
+  "config.testconfig.title": "Test Config",
+
+  "config.testconfig.testInt": "Int",
+  "config.testconfig.testInt.tooltip": "Int tooltip",
+  "config.testconfig.testFloat": "Float",
+  "config.testconfig.testFloat.tooltip": "Float tooltip",
+  "config.testconfig.testDouble": "Double",
+  "config.testconfig.testDouble.tooltip": "Double tooltip",
+  "config.testconfig.testBool": "Bool",
+  "config.testconfig.testBool.tooltip": "Bool tooltip",
+  "config.testconfig.testString": "String",
+  "config.testconfig.testString.placeholder": "String placeholder",
+  "config.testconfig.testString.tooltip": "String tooltip",
+  "config.testconfig.testEnum": "Enum",
+  "config.testconfig.testEnum.tooltip": "Enum tooltip",
+  "config.testconfig.testEnum.test_1": "Test 1",
+  "config.testconfig.testEnum.test_2": "Test 2",
+  "config.testconfig.testEnum.test_3": "Test 3"
+}

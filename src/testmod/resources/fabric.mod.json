@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "testmod-cabinetapi",
+    "id": "testmod",
     "version": "0.0.0",
     "name": "Cabinet API Test Mod",
     "description": "Cabinet API Test Mod",
@@ -13,11 +13,14 @@
     "entrypoints": {
         "main": [
             "dev.callmeecho.testmod.TestMod"
+        ],
+        "client": [
+            "dev.callmeecho.testmod.TestModClient"
         ]
     },
     "depends": {
         "fabricloader": ">=0.14.24",
-        "minecraft": "~${minecraft_version}",
+        "minecraft": "*",
         "java": ">=17",
         "fabric-api": "*",
         "cabinetapi": "*"

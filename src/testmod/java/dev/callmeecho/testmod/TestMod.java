@@ -4,7 +4,6 @@ import dev.callmeecho.cabinetapi.config.ConfigHandler;
 import dev.callmeecho.cabinetapi.item.CabinetItemGroup;
 import dev.callmeecho.cabinetapi.registry.RegistrarHandler;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
@@ -24,7 +23,5 @@ public class TestMod implements ModInitializer {
         StrippableBlockRegistry.register(Blocks.PURPUR_STAIRS, Blocks.QUARTZ_STAIRS);
         
         ITEM_GROUP.initialize();
-
-        LOGGER.info(CONFIG.testString);
     }
 }

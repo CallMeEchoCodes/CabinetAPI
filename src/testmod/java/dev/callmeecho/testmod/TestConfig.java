@@ -1,17 +1,23 @@
 package dev.callmeecho.testmod;
 
 import dev.callmeecho.cabinetapi.config.Config;
+import dev.callmeecho.cabinetapi.config.NestedConfig;
 import dev.callmeecho.cabinetapi.config.annotations.Comment;
+import dev.callmeecho.cabinetapi.config.annotations.Range;
+import dev.callmeecho.cabinetapi.config.annotations.Sync;
+import net.minecraft.util.Identifier;
 
 public class TestConfig implements Config {
     @Override
-    public String getName() {
-        return "testconfig";
+    public Identifier getName() {
+        return new Identifier("testmod", "testconfig");
     }
     
     @Comment("This is a test string")
+    @Sync
     public String testString = "test4";
     @Comment("This is a test int")
+    @Range(min = 2, max = 10)
     public int testInt = 1;
     @Comment("This is a test boolean")
     public boolean testBool = true;
@@ -19,21 +25,40 @@ public class TestConfig implements Config {
     public double testDouble = 1.0;
     @Comment("This is a test float")
     public float testFloat = 1.0f;
-    @Comment("This is a test long")
-    public long testLong = 1L;
-    @Comment("This is a test short")
-    public short testShort = 1;
-    @Comment("This is a test byte")
-    public byte testByte = 1;
-    @Comment("This is a test char")
-    public char testChar = 'a';
 
     @Comment("This is a nested class")
     public Nested nested = new Nested();
 
-    public static class Nested {
+    @Comment("This is a test enum")
+    public TestEnum testEnum = TestEnum.TEST_1;
+
+    public static class Nested implements NestedConfig {
         @Comment("This is a nested string\n" +
                 "With a new line")
         public String nestedString = "test";
+
+        @Override
+        public Identifier getName() {
+            return new Identifier("testmod", "nested");
+        }
+
+        @Comment("This is a nested nested class")
+        public NestedNested nestedNested = new NestedNested();
+
+        public static class NestedNested implements NestedConfig {
+            @Comment("This is a nested nested string")
+            public String nestedNestedString = "test";
+
+            @Override
+            public Identifier getName() {
+                return new Identifier("testmod", "nestednested");
+            }
+        }
+    }
+
+    public enum TestEnum {
+        TEST_1,
+        TEST_2,
+        TEST_3
     }
 }

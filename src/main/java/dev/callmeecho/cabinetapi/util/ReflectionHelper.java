@@ -91,6 +91,64 @@ public final class ReflectionHelper {
     }
 
     /**
+     * Get the value of a field.
+     * Will throw a {@link ClassCastException} if the field is not of the
+     * expected type.
+     *
+     * @param instance Instance to get the field from
+     * @param field Field to get the value of
+     * @param <T> Type of the field
+     * @return Value of the field
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getFieldValue(Object instance, Field field) {
+        try {
+            Object value = field.get(instance);
+            if (value == null) return null;
+
+            return (T) value;
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Failed to access field " + field.getName(), e);
+        }
+    }
+
+    /**
+     * Set the value of a field.
+     *
+     * @param instance Instance to set the field on
+     * @param field Field to set the value of
+     * @param value Value to set the field to
+     */
+    public static void setFieldValue(Object instance, Field field, Object value) {
+        try {
+            field.set(instance, value);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Failed to set field " + field.getName(), e);
+        }
+    }
+
+    /**
+     * Get the value of a static field.
+     *
+     * @param field Field to get the value of
+     * @param <T> Type of the field
+     * @return Value of the field
+     */
+    public static <T> T getFieldValue(Field field) {
+        return getFieldValue(null, field);
+    }
+
+    /**
+     * Set the value of a static field.
+     *
+     * @param field Field to set the value of
+     * @param value Value to set the field to
+     */
+    public static void setFieldValue(Field field, Object value) {
+        setFieldValue(null, field, value);
+    }
+
+    /**
      * Functional interface for actions to perform on fields.
      *
      * @param <T> Type of the field

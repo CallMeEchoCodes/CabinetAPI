@@ -1,7 +1,12 @@
 package dev.callmeecho.cabinetapi.config;
 
 import dev.callmeecho.cabinetapi.config.annotations.Comment;
+import dev.callmeecho.cabinetapi.config.annotations.Range;
+import dev.callmeecho.cabinetapi.util.ReflectionHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -13,23 +18,41 @@ import java.util.*;
 import static dev.callmeecho.cabinetapi.CabinetAPI.LOGGER;
 
 public interface Config {
-    String getName();
+    Identifier getName();
     
     @SuppressWarnings("ResultOfMethodCallIgnored")
     default void save() {
-        String json = ConfigHandler.GSON.toJson(this);
-
-        ArrayList<String> lines = new ArrayList<>(Arrays.asList(json.split("\n")));
         HashMap<String, String> comments = new HashMap<>();
-        TreeMap<Integer, String> insertions = new TreeMap<>();
-        ArrayList<String> newLines = new ArrayList<>(lines);
 
         for (Field field : this.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(Range.class)) {
+                Range annotation = field.getAnnotation(Range.class);
+                if (annotation.clamp()) {
+                    Number value = ReflectionHelper.getFieldValue(this, field);
+                    if (value != null)
+                        ReflectionHelper.setFieldValue(
+                                this,
+                                field,
+                                MathHelper.clamp(
+                                        value.doubleValue(),
+                                        annotation.min(),
+                                        annotation.max()
+                                )
+                        );
+                }
+            }
+
             if (!field.isAnnotationPresent(Comment.class)) continue;
 
             Comment annotation = field.getAnnotation(Comment.class);
             comments.put(field.getName(), annotation.value());
         }
+
+        String json = ConfigHandler.GSON.toJson(this);
+
+        TreeMap<Integer, String> insertions = new TreeMap<>();
+        ArrayList<String> lines = new ArrayList<>(Arrays.asList(json.split("\n")));
+        ArrayList<String> newLines = new ArrayList<>(lines);
 
         List<Class<?>> nestedClasses = new ArrayList<>();
         for (Class<?> clazz : this.getClass().getDeclaredClasses()) {
@@ -75,12 +98,24 @@ public interface Config {
             LOGGER.error("Failed to save config file: " + path, e);
         }
     }
+
+    default NbtCompound writeSyncTag() {
+        NbtCompound tag = new NbtCompound();
+        tag.putString("name", this.getName().toString());
+        tag.putString("data", ConfigHandler.GSON_NON_SYNC.toJson(this));
+
+        return tag;
+    }
+
+    default String getTranslationKey(Field field) {
+        return "config." + this.getName() + "." + field.getName();
+    }
     
     default Path getPath() {
         return Paths.get(
                 FabricLoader.getInstance().getConfigDir().toString(),
                 "",
-                String.format("%s.%s", getName(), getFileType())
+                String.format("%s.%s", getName().getPath(), getFileType())
         );
     }
 

@@ -1,13 +1,29 @@
 plugins {
-    id "java"
+    id "java-library"
     id "fabric-loom" version "1.5-SNAPSHOT"
     id "maven-publish"
 }
+
+import net.fabricmc.loom.task.RemapJarTask
 
 version = "${project.mod_version}+${stonecutter.current.version}"
 group = project.maven_group
 base {
     archivesName = project.archives_base_name
+}
+
+sourceSets {
+    testmod {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+    }
+}
+
+repositories {
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/releases/"
+    }
 }
 
 dependencies {
@@ -16,6 +32,11 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation ("com.terraformersmc:modmenu:${project.modmenu_version}") {
+        transitive = false
+    }
+
+    testmodImplementation sourceSets.main.output
 }
 
 if (stonecutter.current.active) { // run configs for non-active version would be invalid
@@ -26,14 +47,17 @@ if (stonecutter.current.active) { // run configs for non-active version would be
         }
 
         runs {
-            create("datagen") {
+            create("testmodClient") {
                 client()
-                name("Minecraft Data")
-                vmArg("-Dfabric-api.datagen")
-                vmArg("-Dfabric-api.datagen.output-dir=${file("src/main/generated")}")
-                vmArg("-Dfabric-api.datagen.modid=${project.properties.archives_base_name}")
+                name = "TestMod Client"
+                source sourceSets.testmod
+            }
 
-                runDir("build/datagen")
+            create("testmodServer") {
+                server()
+                name = "TestMod Server"
+                runDir = "../../run/server"
+                source sourceSets.testmod
             }
         }
     }
@@ -63,6 +87,21 @@ java {
     withSourcesJar()
     withJavadocJar()
 }
+
+task testmodJar(type: Jar) {
+    group "build"
+    from sourceSets.testmod.output
+    archiveClassifier = "testmod-dev"
+    destinationDirectory = project.file("build/devlibs")
+}
+
+task remapTestmodJar(type: RemapJarTask, dependsOn: testmodJar) {
+    group "build"
+    inputFile = testmodJar.archiveFile
+    classpath.from sourceSets.testmod.compileClasspath
+    archiveClassifier = "testmod"
+}
+build.dependsOn remapTestmodJar
 
 jar {
     from("LICENSE") {

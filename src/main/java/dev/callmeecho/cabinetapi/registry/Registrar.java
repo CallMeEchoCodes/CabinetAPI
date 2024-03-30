@@ -38,18 +38,12 @@ public interface Registrar<T> {
      * Do not call this method directly, use RegistrarHandler.process() instead.
      * @param namespace Namespace to register objects in
      */
-    @SuppressWarnings("unchecked")
     @ApiStatus.Internal
     default void init(String namespace) {
         for (var field : this.getClass().getDeclaredFields()) {
             if (!Modifier.isStatic(field.getModifiers())) continue;
             if (field.isAnnotationPresent(Ignore.class)) continue;
-            T value;
-            try {
-                value = (T)field.get(null);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException("Failed to access field " + field.getName(), e);
-            }
+            T value = ReflectionHelper.getFieldValue(field);
 
             if (value != null && field.getType().isAssignableFrom(value.getClass())) { register(field.getName().toLowerCase(), namespace, value, field); }
         }
