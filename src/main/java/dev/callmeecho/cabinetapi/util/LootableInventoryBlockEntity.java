@@ -1,21 +1,17 @@
 package dev.callmeecho.cabinetapi.util;
 
-import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
+import net.minecraft.component.ComponentMap;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ContainerLootComponent;
+import net.minecraft.inventory.LootableInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
-import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -23,76 +19,79 @@ import org.jetbrains.annotations.Nullable;
  * You could use the {@link net.minecraft.block.entity.LootableContainerBlockEntity} class, but it comes with a menu,
  * and you might not want that.
  */
-public class LootableInventoryBlockEntity extends InventoryBlockEntity {
-    public static final String LOOT_TABLE_KEY = "LootTable";
-    public static final String LOOT_TABLE_SEED_KEY = "LootTableSeed";
+public class LootableInventoryBlockEntity extends InventoryBlockEntity implements LootableInventory {
+    @Nullable
+    protected RegistryKey<LootTable> lootTable;
+    protected long lootTableSeed = 0L;
 
-    public LootableInventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int size) {
-        super(type, pos, state, size);
+    protected LootableInventoryBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState, int size) {
+        super(blockEntityType, blockPos, blockState, size);
     }
 
     @Nullable
-    protected Identifier lootTableId;
-    protected long lootTableSeed;
+    public RegistryKey<LootTable> getLootTable() {
+        return this.lootTable;
+    }
 
-    public void checkLootInteraction(@Nullable PlayerEntity player, boolean randomSeed) {
-        if (world == null) return;
-        if (this.lootTableId != null && this.world.getServer() != null) {
-            LootTable lootTable = this.world.getServer().getLootManager().getLootTable(this.lootTableId);
-            if (player instanceof ServerPlayerEntity) {
-                Criteria.PLAYER_GENERATES_CONTAINER_LOOT.trigger((ServerPlayerEntity)player, this.lootTableId);
-            }
+    public void setLootTable(@Nullable RegistryKey<LootTable> registryKey) {
+        this.lootTable = registryKey;
+    }
 
-            this.lootTableId = null;
-            LootContextParameterSet.Builder builder = new LootContextParameterSet.Builder((ServerWorld)this.world)
-                    .add(LootContextParameters.ORIGIN, Vec3d.ofCenter(this.pos));
-            if (player != null) {
-                builder.luck(player.getLuck()).add(LootContextParameters.THIS_ENTITY, player);
-            }
+    public long getLootTableSeed() {
+        return this.lootTableSeed;
+    }
 
-            lootTable.supplyInventory(
-                    this,
-                    builder.build(LootContextTypes.CHEST),
-                    randomSeed ? world.getRandom().nextLong() : this.lootTableSeed
-            );
+    public void setLootTableSeed(long l) {
+        this.lootTableSeed = l;
+    }
+
+    public boolean isEmpty() {
+        this.generateLoot(null);
+        return super.isEmpty();
+    }
+
+    public ItemStack getStack(int i) {
+        this.generateLoot(null);
+        return super.getStack(i);
+    }
+
+    public ItemStack removeStack(int i, int j) {
+        this.generateLoot(null);
+        return super.removeStack(i, j);
+    }
+
+    public ItemStack removeStack(int i) {
+        this.generateLoot(null);
+        return super.removeStack(i);
+    }
+
+    public void setStack(int i, ItemStack itemStack) {
+        this.generateLoot(null);
+        super.setStack(i, itemStack);
+    }
+
+
+    protected void readComponents(BlockEntity.ComponentsAccess componentsAccess) {
+        super.readComponents(componentsAccess);
+        ContainerLootComponent containerLootComponent = componentsAccess.get(DataComponentTypes.CONTAINER_LOOT);
+        if (containerLootComponent != null) {
+            this.lootTable = containerLootComponent.lootTable();
+            this.lootTableSeed = containerLootComponent.seed();
         }
+
     }
 
-    protected boolean deserializeLootTable(NbtCompound nbt) {
-        if (!nbt.contains(LOOT_TABLE_KEY, NbtElement.STRING_TYPE)) return false;
-
-        this.lootTableId = new Identifier(nbt.getString(LOOT_TABLE_KEY));
-        this.lootTableSeed = nbt.getLong(LOOT_TABLE_SEED_KEY);
-        return true;
-    }
-
-    protected boolean serializeLootTable(NbtCompound nbt) {
-        if (this.lootTableId == null) return false;
-
-        nbt.putString(LOOT_TABLE_KEY, this.lootTableId.toString());
-        if (lootTableSeed != 0) nbt.putLong(LOOT_TABLE_SEED_KEY, this.lootTableSeed);
-        return true;
-    }
-
-    public void setLootTable(Identifier id, long seed) {
-        this.lootTableId = id;
-        this.lootTableSeed = seed;
-    }
-
-    @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        inventory.clear();
-        if (!this.deserializeLootTable(nbt)) {
-            Inventories.readNbt(nbt, this.inventory);
+    protected void addComponents(ComponentMap.Builder builder) {
+        super.addComponents(builder);
+        if (this.lootTable != null) {
+            builder.add(DataComponentTypes.CONTAINER_LOOT, new ContainerLootComponent(this.lootTable, this.lootTableSeed));
         }
+
     }
 
-    @Override
-    public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        if (!this.serializeLootTable(nbt)) {
-            Inventories.writeNbt(nbt, this.inventory);
-        }
+    public void removeFromCopiedStackNbt(NbtCompound nbtCompound) {
+        super.removeFromCopiedStackNbt(nbtCompound);
+        nbtCompound.remove("LootTable");
+        nbtCompound.remove("LootTableSeed");
     }
 }

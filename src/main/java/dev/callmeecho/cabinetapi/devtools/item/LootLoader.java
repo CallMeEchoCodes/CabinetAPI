@@ -3,11 +3,14 @@ package dev.callmeecho.cabinetapi.devtools.item;
 import dev.callmeecho.cabinetapi.util.LootableInventoryBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.loot.LootTable;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -38,17 +41,16 @@ public class LootLoader extends Item {
             return ActionResult.FAIL;
 
         ItemStack stack = player.getStackInHand(context.getHand());
-        if (!stack.hasCustomName()) {
+        if (stack.get(DataComponentTypes.CUSTOM_NAME) == null) {
             player.sendMessage(NO_NAME, true);
             return ActionResult.FAIL;
         }
 
         String[] name = stack.getName().getString().split(":");
-        Identifier lootTable = new Identifier(name[0], name[1]);
-
+        RegistryKey<LootTable> lootTable = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(name[0], name[1]));
         MinecraftServer server = world.getServer();
         if (server == null) return ActionResult.FAIL;
-        if (server.getLootManager().getLootTable(lootTable) == LootTable.EMPTY) {
+        if (server.getReloadableRegistries().getLootTable(lootTable) == LootTable.EMPTY) {
             player.sendMessage(Text.translatable("item.cabinetapi.loot_loader.invalid", lootTable.toString()), true);
             return ActionResult.FAIL;
         }

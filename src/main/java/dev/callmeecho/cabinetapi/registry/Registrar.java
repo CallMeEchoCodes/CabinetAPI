@@ -31,7 +31,7 @@ public interface Registrar<T> {
      * @param object Object to register
      * @param field Field the object is stored in
      */
-    default void register(String name, String namespace, T object, Field field) { Registry.register(getRegistry(), new Identifier(namespace, name), object); }
+    default void register(String name, String namespace, T object, Field field) { Registry.register(getRegistry(), Identifier.of(namespace, name), object); }
 
     /**
      * Initialize the registrar and register all objects.
@@ -45,7 +45,15 @@ public interface Registrar<T> {
             if (field.isAnnotationPresent(Ignore.class)) continue;
             T value = ReflectionHelper.getFieldValue(field);
 
-            if (value != null && field.getType().isAssignableFrom(value.getClass())) { register(field.getName().toLowerCase(), namespace, value, field); }
+            if (value != null && field.getType().isAssignableFrom(value.getClass())) {
+                String name = field.getName().toLowerCase();
+                if (field.isAnnotationPresent(Name.class)) {
+                    Name nameAnnotation = field.getAnnotation(Name.class);
+                    name = nameAnnotation.value();
+                }
+
+                register(name, namespace, value, field);
+            }
         }
     }
 
@@ -54,5 +62,14 @@ public interface Registrar<T> {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
-    public @interface Ignore {}
+    @interface Ignore {}
+
+    /**
+     * Set the name of the object to register.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.FIELD)
+    @interface Name {
+        String value();
+    }
 }

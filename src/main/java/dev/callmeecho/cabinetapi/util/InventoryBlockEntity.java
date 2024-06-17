@@ -3,7 +3,9 @@ package dev.callmeecho.cabinetapi.util;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.inventory.Inventories;
+import net.minecraft.component.ComponentMap;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ContainerComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -33,21 +35,15 @@ public class InventoryBlockEntity extends BlockEntity implements DefaultedInvent
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return createNbt();
+    protected void readComponents(BlockEntity.ComponentsAccess componentsAccess) {
+        super.readComponents(componentsAccess);
+        componentsAccess.getOrDefault(DataComponentTypes.CONTAINER, ContainerComponent.DEFAULT).copyTo(this.getItems());
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt) {
-        Inventories.writeNbt(nbt, inventory);
-        super.writeNbt(nbt);
-    }
-
-    @Override
-    public void readNbt(NbtCompound nbt) {
-        inventory.clear();
-        super.readNbt(nbt);
-        Inventories.readNbt(nbt, inventory);
+    protected void addComponents(ComponentMap.Builder builder) {
+        super.addComponents(builder);
+        builder.add(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(this.getItems()));
     }
 
     @Nullable
@@ -64,5 +60,11 @@ public class InventoryBlockEntity extends BlockEntity implements DefaultedInvent
     @Override
     public BlockState getCachedState() {
         return super.getCachedState();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void removeFromCopiedStackNbt(NbtCompound nbtCompound) {
+        nbtCompound.remove("Items");
     }
 }

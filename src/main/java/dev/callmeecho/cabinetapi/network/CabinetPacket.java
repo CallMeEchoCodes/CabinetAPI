@@ -1,13 +1,17 @@
 package dev.callmeecho.cabinetapi.network;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.packet.CustomPayload;
 
-
-/**
- * Represents a packet that can be sent and received.
- */
 public interface CabinetPacket {
-    void send(PlayerEntity player);
-    void receive(NbtCompound buffer);
+    CustomPayload.Id<? extends CustomPayload> getId();
+    <B extends PacketByteBuf> PacketCodec<? super B, ? extends CustomPayload> getCodec();
+
+    void register();
+
+    @Environment(EnvType.CLIENT)
+    void registerClient();
 }

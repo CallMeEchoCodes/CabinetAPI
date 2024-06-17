@@ -2,8 +2,8 @@ package dev.callmeecho.cabinetapi.client.particle;
 
 import dev.callmeecho.cabinetapi.registry.ParticleTypeRegistrar;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 
 public class CabinetParticleTypes implements ParticleTypeRegistrar {
-    public static final DefaultParticleType DEBUG = FabricParticleTypes.simple();
+    public static final SimpleParticleType DEBUG = FabricParticleTypes.simple();
 }

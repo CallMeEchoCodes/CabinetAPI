@@ -1,4 +1,4 @@
-package dev.callmeecho.cabinetapi.mixin;
+package dev.callmeecho.cabinetapi.mixin.block;
 
 import net.minecraft.block.*;
 import net.minecraft.block.enums.BlockHalf;

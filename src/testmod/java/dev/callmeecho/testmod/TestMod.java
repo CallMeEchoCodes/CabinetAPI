@@ -14,7 +14,7 @@ public class TestMod implements ModInitializer {
     public final static TestConfig CONFIG = ConfigHandler.getConfig(TestConfig.class);
     public static final Logger LOGGER = LoggerFactory.getLogger("testmod");
     
-    public static final CabinetItemGroup ITEM_GROUP = new CabinetItemGroup(new Identifier("testmod", "item_group"), TestModBlockRegistrar.TEST_BLOCK);
+    public static final CabinetItemGroup ITEM_GROUP = new CabinetItemGroup(Identifier.of("testmod", "item_group"), TestModBlockRegistrar.TEST_BLOCK);
     
     @Override
     public void onInitialize() {

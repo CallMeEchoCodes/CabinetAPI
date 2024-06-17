@@ -7,8 +7,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Condition {
+public @interface ModCondition {
     String value() default "";
-
     String versionPredicate() default "";
+    boolean negated() default false;
 }

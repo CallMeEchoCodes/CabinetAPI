@@ -15,21 +15,14 @@ import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class OptionsScrollableWidget extends ElementListWidget<OptionsScrollableWidget.OptionEntry> {
-    /*? if <=1.20.2 {*/
-    public OptionsScrollableWidget(MinecraftClient minecraftClient, int width, int height, int k, int l, int m) {
-        super(minecraftClient, width, height, k, l, m);
-        this.centerListVertically = false;
-    }
-    /*?} else {*//*
     public OptionsScrollableWidget(MinecraftClient minecraftClient, int width, int height, int k, int l) {
         super(minecraftClient, width, height, k, l);
         this.centerListVertically = false;
     }
-    *//*?} */
 
     @Override
-    protected int getScrollbarPositionX() {
-        return super.getScrollbarPositionX() + 32;
+    protected int getScrollbarX() {
+        return super.getScrollbarX() + 32;
     }
 
     @Override

@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 
 /**
  * A simple particle for debugging purposes.
@@ -24,13 +24,13 @@ public class DebugParticle extends SpriteBillboardParticle {
     @Override
     public void tick() { this.markDead(); }
 
-    public static class Factory implements ParticleFactory<DefaultParticleType> {
+    public static class Factory implements ParticleFactory<SimpleParticleType> {
         private final SpriteProvider spriteProvider;
         
         public Factory(SpriteProvider spriteProvider) { this.spriteProvider = spriteProvider;}
 
         @Override
-        public Particle createParticle(DefaultParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+        public Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
             DebugParticle particle = new DebugParticle(world, x, y, z);
             particle.setSprite(spriteProvider);
             return particle;

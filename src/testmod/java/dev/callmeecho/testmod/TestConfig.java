@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 public class TestConfig implements Config {
     @Override
     public Identifier getName() {
-        return new Identifier("testmod", "testconfig");
+        return Identifier.of("testmod", "testconfig");
     }
     
     @Comment("This is a test string")
@@ -39,7 +39,7 @@ public class TestConfig implements Config {
 
         @Override
         public Identifier getName() {
-            return new Identifier("testmod", "nested");
+            return Identifier.of("testmod", "nested");
         }
 
         @Comment("This is a nested nested class")
@@ -51,7 +51,7 @@ public class TestConfig implements Config {
 
             @Override
             public Identifier getName() {
-                return new Identifier("testmod", "nestednested");
+                return Identifier.of("testmod", "nestednested");
             }
         }
     }

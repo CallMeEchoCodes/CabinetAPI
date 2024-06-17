@@ -1,7 +1,6 @@
 package dev.callmeecho.cabinetapi.devtools;
 
 import dev.callmeecho.cabinetapi.devtools.item.LootLoader;
-import dev.callmeecho.cabinetapi.item.CabinetItemSettings;
 import dev.callmeecho.cabinetapi.registry.ItemRegistrar;
 import net.minecraft.item.Item;
 
@@ -10,5 +9,5 @@ import net.minecraft.item.Item;
  * Will only be registered if debug mode is enabled
  */
 public class CabinetDevtoolsRegistry implements ItemRegistrar {
-    public static final Item LOOT_LOADER = new LootLoader(new CabinetItemSettings().maxCount(1));
+    public static final Item LOOT_LOADER = new LootLoader(new Item.Settings().maxCount(1));
 }

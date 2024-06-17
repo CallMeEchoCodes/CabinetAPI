@@ -12,12 +12,12 @@ public interface CabinetWidget extends Selectable, Drawable, Positionable, Eleme
     void setHeight(int height);
 
     @FunctionalInterface
-    public interface Getter<T> {
+    interface Getter<T> {
         T get();
     }
 
     @FunctionalInterface
-    public interface Setter<T> {
+    interface Setter<T> {
         void set(T value);
     }
 }

@@ -1,10 +1,10 @@
 package dev.callmeecho.cabinetapi.config;
 
+import com.mojang.datafixers.util.Pair;
 import dev.callmeecho.cabinetapi.config.annotations.Comment;
 import dev.callmeecho.cabinetapi.config.annotations.Range;
 import dev.callmeecho.cabinetapi.util.ReflectionHelper;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -95,16 +95,12 @@ public interface Config {
         try {
             Files.write(path, newLines);
         } catch (IOException e) {
-            LOGGER.error("Failed to save config file: " + path, e);
+            LOGGER.error("Failed to save config file: {}", path, e);
         }
     }
 
-    default NbtCompound writeSyncTag() {
-        NbtCompound tag = new NbtCompound();
-        tag.putString("name", this.getName().toString());
-        tag.putString("data", ConfigHandler.GSON_NON_SYNC.toJson(this));
-
-        return tag;
+    default Pair<String, String> getSyncData() {
+        return Pair.of(this.getName().toString(), ConfigHandler.GSON_NON_SYNC.toJson(this));
     }
 
     default String getTranslationKey(Field field) {

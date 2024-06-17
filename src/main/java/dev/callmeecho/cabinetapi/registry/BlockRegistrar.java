@@ -21,7 +21,7 @@ public interface BlockRegistrar extends Registrar<Block> {
     
     @Override
     default void register(String name, String namespace, Block object, Field field) {
-        Registry.register(getRegistry(), new Identifier(namespace, name), object);
+        Registry.register(getRegistry(), Identifier.of(namespace, name), object);
         
         if (field.isAnnotationPresent(NoBlockItem.class)) return;
         registerBlockItem(object, namespace, name);
@@ -29,7 +29,7 @@ public interface BlockRegistrar extends Registrar<Block> {
     
     default void registerBlockItem(Block block, String namespace, String name) {
         BlockItem item = new BlockItem(block, new Item.Settings());
-        Registry.register(Registries.ITEM, new Identifier(namespace, name), item); 
+        Registry.register(Registries.ITEM, Identifier.of(namespace, name), item);
     }
 
     @Retention(RetentionPolicy.RUNTIME)

@@ -28,9 +28,9 @@
     "icon": "assets/cabinetapi/icon.png",
     "accessWidener": "cabinetapi.accesswidener",
     "depends": {
-        "fabricloader": ">=0.14.24",
-        "minecraft": "${minecraft_version}",
-        "java": ">=17",
+        "fabricloader": ">=0.15.11",
+        "minecraft": "${minecraft_target}",
+        "java": ">=21",
         "fabric-api": "*"
     },
     "custom": {
@@ -39,6 +39,11 @@
                 "modmenu.discord": "https://discord.gg/TTmx7d2axf"
             },
             "badges": [ "library" ]
+        },
+        "loom:injected_interfaces": {
+            "net/minecraft/class_1792\u0024class_1793": ["dev/callmeecho/cabinetapi/item/CabinetItem\u0024Settings"],
+
+            "net/minecraft/class_4970\u0024class_2251": ["dev/callmeecho/cabinetapi/block/CabinetBlock\u0024Settings"]
         }
     }
 }

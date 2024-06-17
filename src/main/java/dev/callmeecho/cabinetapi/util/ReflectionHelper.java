@@ -1,5 +1,7 @@
 package dev.callmeecho.cabinetapi.util;
 
+import org.objectweb.asm.tree.AnnotationNode;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -156,5 +158,15 @@ public final class ReflectionHelper {
     @FunctionalInterface
     public interface FieldAction<T> {
         void run(T value, String name, Field field);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getAnnotationValue(AnnotationNode annotation, String key, T defaultValue) {
+        if (annotation == null || annotation.values == null) return defaultValue;
+
+        for (int i = 0; i < annotation.values.size(); i += 2)
+            if (annotation.values.get(i).equals(key)) return (T) annotation.values.get(i + 1);
+
+        return defaultValue;
     }
 }

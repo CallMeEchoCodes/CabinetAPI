@@ -1,6 +1,5 @@
 package dev.callmeecho.cabinetapi.client.gui.widget;
 
-import dev.callmeecho.cabinetapi.client.gui.widget.CabinetWidget;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
@@ -46,8 +45,6 @@ public class IntSliderWidget extends SliderWidget implements CabinetWidget {
         setter.set((int) Math.round(this.value * (max - min) + min));
     }
 
-    /*? if 1.20.1 {*/
     @Override
     public void setHeight(int height) { this.height = height; }
-    /*?} */
 }

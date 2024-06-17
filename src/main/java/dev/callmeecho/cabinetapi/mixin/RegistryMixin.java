@@ -1,9 +1,8 @@
 package dev.callmeecho.cabinetapi.mixin;
 
-import dev.callmeecho.cabinetapi.block.CabinetBlockSettings;
+import dev.callmeecho.cabinetapi.block.CabinetBlock;
+import dev.callmeecho.cabinetapi.item.CabinetItem;
 import dev.callmeecho.cabinetapi.item.CabinetItemGroup;
-import dev.callmeecho.cabinetapi.item.CabinetItemSettings;
-import dev.callmeecho.cabinetapi.util.ItemExtensions;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.Block;
@@ -19,20 +18,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public interface RegistryMixin {
     @Inject(method = "register(Lnet/minecraft/registry/Registry;Lnet/minecraft/registry/RegistryKey;Ljava/lang/Object;)Ljava/lang/Object;", at = @At("RETURN"))
     private static <V, T extends V> void register(Registry<V> registry, RegistryKey<V> key, T entry, CallbackInfoReturnable<T> cir) {
-        if (entry instanceof Block block) {
-            if (!(block.settings instanceof CabinetBlockSettings settings)) return;
+        // Casts are required because this is a mixin.
+        switch (entry) {
+            case Block block -> {
+                Block strippedBlock = ((CabinetBlock)block).cabinetapi$getStrippedBlock();
+                if (strippedBlock != null) StrippableBlockRegistry.register(block, strippedBlock);
 
-            if (settings.getStrippedBlock() != null)
-                StrippableBlockRegistry.register(block, settings.getStrippedBlock());
-            if (settings.isFlammable())
-                FlammableBlockRegistry.getDefaultInstance().add(block, settings.getBurn(), settings.getSpread());
-        }
-        
-        if (entry instanceof Item item) {
-            if (!(((ItemExtensions) item).cabinetAPI$getSettings() instanceof CabinetItemSettings settings)) return;
+                if (((CabinetBlock)block).cabinetapi$isFlammable())
+                    FlammableBlockRegistry.getDefaultInstance().add(
+                            block,
+                            ((CabinetBlock)block).cabinetapi$getBurn(),
+                            ((CabinetBlock)block).cabinetapi$getSpread()
+                    );
+            }
 
-            CabinetItemGroup group = settings.getGroup();
-            if (group != null) group.addItem(item);
+            case Item item -> {
+                CabinetItemGroup group = ((CabinetItem)item).cabinetapi$getGroup();
+                if (group != null) group.addItem(item);
+            }
+
+            default -> {}
         }
     }
 }
