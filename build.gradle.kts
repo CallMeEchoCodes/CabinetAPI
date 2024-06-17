@@ -84,6 +84,7 @@ tasks.processResources {
 
 java {
     withSourcesJar()
+    withJavadocJar()
 }
 
 extensions.configure(PublishingExtension::class.java) {
@@ -91,7 +92,7 @@ extensions.configure(PublishingExtension::class.java) {
         create<MavenPublication>("maven") {
             groupId = mod.group
             artifactId = mod.id
-            version = "${mod.version} + ${stonecutter.current.version}"
+            version = "${mod.version}+${stonecutter.current.version}"
             from(components["java"])
         }
     }
@@ -108,7 +109,7 @@ extensions.configure(PublishingExtension::class.java) {
 
 tasks.javadoc {
     with(options as StandardJavadocDocletOptions) {
-        source = "17"
+        source = "21"
         encoding = "UTF-8"
         charSet = "UTF-8"
         memberLevel = JavadocMemberLevel.PACKAGE

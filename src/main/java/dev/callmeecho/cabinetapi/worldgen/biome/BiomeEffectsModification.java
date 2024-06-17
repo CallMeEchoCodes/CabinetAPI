@@ -52,7 +52,6 @@ public record BiomeEffectsModification(
     /**
      * Applies this modifier to the given biome
      * @param biome The biome to apply the effects to
-     * @return The previous effects of the biome
      */
     public void apply(Biome biome) {
         BiomeEffects effects = biome.getEffects();
