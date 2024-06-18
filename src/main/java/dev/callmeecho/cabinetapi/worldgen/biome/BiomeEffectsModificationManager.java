@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public final class BiomeEffectsModificationManager extends SinglePreparationResourceReloader<Map<RegistryKey<Biome>, BiomeEffectsModification>> implements IdentifiableResourceReloadListener {
@@ -36,6 +37,8 @@ public final class BiomeEffectsModificationManager extends SinglePreparationReso
         for (Map.Entry<Identifier, Resource> entry : resourceFinder.findResources(manager).entrySet()) {
             Identifier id = entry.getKey();
             Resource resource = entry.getValue();
+            if (!Objects.equals(id.getNamespace(), CabinetAPI.MODID)) continue;
+
             JsonElement element = null;
 
             try {

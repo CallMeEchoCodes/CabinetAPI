@@ -11,6 +11,7 @@ import net.minecraft.item.ItemGroups;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class CabinetAPI implements ModInitializer {
     public static final String MODID = "cabinetapi";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
