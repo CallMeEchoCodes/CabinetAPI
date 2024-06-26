@@ -23,9 +23,11 @@ import java.util.Set;
 
 public class ConditionalMixinPlugin implements IMixinConfigPlugin {
     private final Map<String, Boolean> cache = new HashMap<>();
+    private String mixinPackage;
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if (this.mixinPackage != null && !mixinClassName.startsWith(this.mixinPackage)) return true;
         synchronized (cache) {
             Boolean result = cache.get(mixinClassName);
             if (result != null) return result;
@@ -84,7 +86,9 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
 
 
     @Override
-    public void onLoad(String mixinPackage) { }
+    public void onLoad(String mixinPackage) {
+        this.mixinPackage = mixinPackage;
+    }
 
     @Override
     public String getRefMapperConfig() { return null; }
