@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.net.Proxy;
 
-@DevEnvironmentCondition
 @Mixin(RunArgs.Network.class)
 public class RunArgsNetworkMixin {
     @Mutable
@@ -23,23 +22,17 @@ public class RunArgsNetworkMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(Session session, PropertyMap userProperties, PropertyMap profileProperties, Proxy proxy, CallbackInfo ci) {
-        if (!System.getProperties().containsKey("cabinetapi.development.username")) {
+        if (!CabinetAPI.DEBUG) return;
+
+        if (!System.getProperties().containsKey("cabinetapi.development.username") || !System.getProperties().containsKey("cabinetapi.development.uuid")) {
             CabinetAPI.LOGGER.info("Development account not set, skipping...");
             return;
         }
+
         String username = System.getProperty("cabinetapi.development.username");
+        String uuidString = System.getProperty("cabinetapi.development.uuid").replace("-", "");
 
-        if (!System.getProperties().containsKey("cabinetapi.development.uuid")) {
-            CabinetAPI.LOGGER.info("Development account not set, skipping...");
-            return;
-        }
-
-        UUID uuid = UUID.fromString(System.getProperty("cabinetapi.development.uuid"));
-
-        if (username == null) {
-            CabinetAPI.LOGGER.info("Development account not set, skipping...");
-            return;
-        }
+        UUID uuid = UUID.fromString(uuidString.replaceFirst("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5"));
 
         CabinetAPI.LOGGER.info(String.format("Using development account %s (%s)", username, uuid));
         this.session = new Session(

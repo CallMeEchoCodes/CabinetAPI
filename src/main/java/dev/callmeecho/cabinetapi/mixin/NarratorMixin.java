@@ -19,16 +19,13 @@ public interface NarratorMixin {
             cir.setReturnValue(
                     new Narrator() {
                         @Override
-                        public void say(String msg, boolean interrupt) {
-                        }
+                        public void say(String msg, boolean interrupt) { }
 
                         @Override
-                        public void clear() {
-                        }
+                        public void clear() { }
 
                         @Override
-                        public void destroy() {
-                        }
+                        public void destroy() { }
 
                         @Override
                         public boolean active() {

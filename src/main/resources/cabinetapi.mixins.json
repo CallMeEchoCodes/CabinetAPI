@@ -5,7 +5,6 @@
   "package": "dev.callmeecho.cabinetapi.mixin",
   "mixins": [
     "block.AxeItemMixin",
-    "NarratorMixin",
     "RegistryMixin",
     "block.StrippableBlockRegistryMixin",
     "block.AbstractBlockMixin",
@@ -15,6 +14,7 @@
   ],
   "client": [
     "ModMenuMixin",
+    "NarratorMixin",
     "devtools.RunArgsNetworkMixin"
   ],
   "server": [

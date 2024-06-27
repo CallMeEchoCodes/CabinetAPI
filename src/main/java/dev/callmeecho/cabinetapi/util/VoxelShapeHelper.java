@@ -9,7 +9,6 @@ import net.minecraft.util.shape.VoxelShapes;
  * A helper class for VoxelShapes
  */
 public class VoxelShapeHelper {
-
     /**
      * Rotates a VoxelShape to the specified direction
      * @param to The direction to rotate to

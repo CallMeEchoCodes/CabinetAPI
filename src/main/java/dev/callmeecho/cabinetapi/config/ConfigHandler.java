@@ -17,7 +17,6 @@ import java.util.List;
 
 /**
  * Handles the loading of config files.
- * In the future, this class will also handle aspects of the GUI.
  */
 public class ConfigHandler {
     @ApiStatus.Internal

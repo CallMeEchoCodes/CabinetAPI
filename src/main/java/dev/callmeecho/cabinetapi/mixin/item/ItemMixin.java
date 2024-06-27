@@ -26,7 +26,5 @@ public class ItemMixin implements CabinetItem {
     }
 
     @Override
-    public @Nullable CabinetItemGroup cabinetapi$getGroup() {
-        return group;
-    }
+    public @Nullable CabinetItemGroup cabinetapi$getGroup() { return group; }
 }

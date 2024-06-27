@@ -2,7 +2,7 @@ import java.net.URI
 
 plugins {
     `java-library`
-    id("fabric-loom") version "1.6.+"
+    id("fabric-loom") version "1.7-SNAPSHOT"
 
     `maven-publish`
 }

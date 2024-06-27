@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public interface RegistryMixin {
     @Inject(method = "register(Lnet/minecraft/registry/Registry;Lnet/minecraft/registry/RegistryKey;Ljava/lang/Object;)Ljava/lang/Object;", at = @At("RETURN"))
     private static <V, T extends V> void register(Registry<V> registry, RegistryKey<V> key, T entry, CallbackInfoReturnable<T> cir) {
-        // Casts are required because this is a mixin.
         switch (entry) {
             case Block block -> {
                 Block strippedBlock = ((CabinetBlock)block).cabinetapi$getStrippedBlock();

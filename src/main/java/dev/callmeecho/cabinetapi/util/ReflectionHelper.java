@@ -10,8 +10,7 @@ import java.lang.reflect.Modifier;
  * A bunch of utilities to reduce boilerplate reflection code.
  */
 public final class ReflectionHelper {
-    private ReflectionHelper() {
-    }
+    private ReflectionHelper() { }
 
     /**
      * Instantiate a class with no arguments.
