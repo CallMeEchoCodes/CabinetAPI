@@ -21,10 +21,10 @@ public enum Easing {
     BACK(back(1.70158)),
 
     /**
-     * Elastic easing function with an amplitude of -1 and a period of 0
+     * Elastic easing function with an amplitude of 1 and a period of 0.3
      * @see #elastic(double, double)
      */
-    ELASTIC(elastic(-1, 0)),
+    ELASTIC(elastic(1, 0.3)),
     BOUNCE(t -> {
         t = 1 - t;
         if (t < 1 / 2.75F) return 1 - 7.5625 * t * t;
