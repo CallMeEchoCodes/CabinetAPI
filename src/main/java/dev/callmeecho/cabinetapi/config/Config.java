@@ -74,6 +74,8 @@ public interface Config {
                 String comment = comments.get(key);
                 String whitespaces = line.substring(0, line.indexOf("\""));
 
+                if (comment == null) continue;
+
                 if (comment.contains("\n"))
                     comment = whitespaces + "// " + String.join("\n" + whitespaces + "// ", comment.split("\n"));
                 else

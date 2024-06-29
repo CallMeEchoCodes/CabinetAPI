@@ -3,6 +3,7 @@ package dev.callmeecho.cabinetapi.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import dev.callmeecho.cabinetapi.CabinetAPI;
 import dev.callmeecho.cabinetapi.util.ReflectionHelper;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
@@ -70,7 +71,12 @@ public class ConfigHandler {
 
             return loadedConfig;
         } catch (JsonSyntaxException | IOException e) {
-            throw new RuntimeException("Failed to load config file: " + config.getPath(), e);
+            CabinetAPI.LOGGER.error("Failed to load config file {}. Default values will be used instead.", config.getPath().toString());
+
+            configs.add(config);
+            configNames.put(config.getName(), configs.size() - 1);
+
+            return config;
         }
     }
 
